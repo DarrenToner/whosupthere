@@ -85,7 +85,7 @@ function People() {
         {filtredCraft.map((person, index) => (
           <li
             key={index}
-            className='mx mx-auto mb-4 width-100 p-6 bg-indigo-500 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 shadow shadow-indigo-500/50 hover:shadow-yellow-500'
+            className='mx mx-auto mb-4 width-100 p-6 bg-indigo-500 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 shadow-indigo-500/50 hover:shadow-yellow-500'
             value={person.craft}
           >
             <FontAwesomeIcon icon="fa-solid fa-shuttle-space" />
