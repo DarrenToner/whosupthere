@@ -26,7 +26,7 @@ function People() {
   }, []);
 
   const getData = async () => {
-    const response = await fetch('http://api.open-notify.org/astros.json');
+    const response = await fetch('https://api.allorigins.win/get?url=http://api.open-notify.org/astros.json');
     const data = await response.json();
     setPeople(data.people);
   };
