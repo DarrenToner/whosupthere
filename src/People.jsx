@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faShuttleSpace } from '@fortawesome/free-solid-svg-icons';
-import SkeletonLoader from './SkeletonLoader'; // Import the SkeletonLoader component
+import SkeletonLoader from './SkeletonLoader';
 
 library.add(faShuttleSpace);
 
@@ -15,6 +15,9 @@ export function getCraft(people) {
 }
 
 export function filterCraft(CraftType, people) {
+  if (!people || people.length === 0) {
+    return []; // Return an empty array if no people data is available
+  }
   let filtredCraft = people.filter((person) => person.craft === CraftType);
   return filtredCraft;
 }
@@ -23,8 +26,8 @@ function People() {
   const [people, setPeople] = useState([]);
   const [filtredCraft, setFiltredCraft] = useState([]);
   const [selectedCraft, setSelectedCraft] = useState('all');
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [isFallback, setIsFallback] = useState(false); // State to track if fallback data is being used
+  const [loading, setLoading] = useState(true);
+  const [isFallback, setIsFallback] = useState(false);
 
   useEffect(() => {
     getData();
@@ -83,34 +86,27 @@ function People() {
 
   const getData = async () => {
     try {
-      // Removed encodeURIComponent, as it's causing the 400 Bad Request error
       const response = await fetch(`https://api.allorigins.win/get?url=http://api.open-notify.org/astros.json`);
       const data = await response.json();
-  
+
       if (data.contents) {
         const parsedData = JSON.parse(data.contents);
         if (parsedData && parsedData.people) {
           setPeople(parsedData.people);
         } else {
-          console.error('Unexpected data format', parsedData);
           setPeople(fallbackData); // Use fallback data in case of format issues
-          setIsFallback(true); // Set fallback state to true
+          setIsFallback(true);
         }
       } else {
-        console.error('Data does not contain contents', data);
-        setPeople(fallbackData);
-        setIsFallback(true); // Set fallback state to true
+        setPeople(fallbackData); // Use fallback data in case no contents
+        setIsFallback(true);
       }
-  
-      setLoading(false);
     } catch (error) {
-      setPeople(fallbackData);
-      setIsFallback(true); // Set fallback state to true
-      setLoading(false);
+      setPeople(fallbackData); // Use fallback data in case of error
+      setIsFallback(true);
     }
+    setLoading(false); // Set loading to false when data is loaded
   };
-  
-
 
   useEffect(() => {
     if (people.length > 0) {
@@ -134,7 +130,6 @@ function People() {
           <span className="block sm:inline">
             We encountered an issue while fetching the current list of people in space. You can try reloading later, or refer to the list below, which reflects data from September 19th, 2024.
           </span>
-
         </div>
       )}
 
