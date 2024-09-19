@@ -104,8 +104,6 @@ function People() {
   
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data, using fallback data:', error);
-      alert('Please note: the API server refused to connect. The list below is accurate as of 19th September 2024.');
       setPeople(fallbackData);
       setIsFallback(true); // Set fallback state to true
       setLoading(false);
@@ -130,7 +128,6 @@ function People() {
 
   return (
     <div className='mx-auto mt-4 px-6 max-w-screen-md'>
-      {/* Display Fallback Message if using fallback data */}
       {isFallback && (
         <div className="bg-yellow-500 text-gray-900 px-4 py-3 rounded-lg mb-5" role="alert">
           <strong className="font-bold">API Error: </strong>
