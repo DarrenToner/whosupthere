@@ -1,0 +1,49 @@
+{
+  "hash": "d35a4ed4",
+  "configHash": "c083dccb",
+  "lockfileHash": "06c32ad4",
+  "browserHash": "a63c831b",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "8592ed24",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "65c93b92",
+      "needsInterop": true
+    },
+    "@fortawesome/react-fontawesome": {
+      "src": "../../node_modules/@fortawesome/react-fontawesome/index.es.js",
+      "file": "@fortawesome_react-fontawesome.js",
+      "fileHash": "ef6019ab",
+      "needsInterop": false
+    },
+    "@fortawesome/fontawesome-svg-core": {
+      "src": "../../node_modules/@fortawesome/fontawesome-svg-core/index.mjs",
+      "file": "@fortawesome_fontawesome-svg-core.js",
+      "fileHash": "18377267",
+      "needsInterop": false
+    },
+    "@fortawesome/free-solid-svg-icons": {
+      "src": "../../node_modules/@fortawesome/free-solid-svg-icons/index.mjs",
+      "file": "@fortawesome_free-solid-svg-icons.js",
+      "fileHash": "6c6b319d",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-5EJISTOO": {
+      "file": "chunk-5EJISTOO.js"
+    },
+    "chunk-KZTJOOEK": {
+      "file": "chunk-KZTJOOEK.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
+}
