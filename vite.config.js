@@ -3,5 +3,5 @@
 
   export default defineConfig({
     plugins: [react()],
-    base: '/whosupthere/',
+    base: '/',
   });
