@@ -1,3 +1,5 @@
+import React from 'react'
+
 // InfoBox.jsx
 function InfoBox() {
   return (
