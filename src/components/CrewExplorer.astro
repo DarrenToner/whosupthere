@@ -3,6 +3,7 @@ interface CrewMember { id: number; name: string; agency: string; agencyName: str
 interface Props { crew: CrewMember[]; }
 const { crew } = Astro.props;
 const agencies = [...new Set(crew.map((person) => person.agency))].sort();
+const formatDays = (value: number | null | undefined) => Number.isFinite(value) ? Number(value).toLocaleString('en-GB') : '—';
 ---
 <section class="crew-section" id="crew" aria-labelledby="crew-title">
   <div class="section-rule" aria-hidden="true"><span>02</span></div>
@@ -23,7 +24,7 @@ const agencies = [...new Set(crew.map((person) => person.agency))].sort();
             <span class="portrait-scan"></span><span class="portrait-index">{String(index + 1).padStart(2, '0')}</span><span class="signal-pill"><i></i> Signal locked</span>
           </div>
           <div class="crew-card-copy"><div><p class="crew-agency">{person.agency} / {person.country}</p><h3>{person.name}</h3></div><span class="open-icon" aria-hidden="true">↗</span></div>
-          <dl class="crew-mini-stats"><div><dt>Days</dt><dd>{person.daysInSpace.toLocaleString('en-GB')}</dd></div><div><dt>Flights</dt><dd>{String(person.flights).padStart(2, '0')}</dd></div><div><dt>EVAs</dt><dd>{String(person.spacewalks).padStart(2, '0')}</dd></div></dl>
+          <dl class="crew-mini-stats"><div><dt>Days</dt><dd>{formatDays(person.daysInSpace)}</dd></div><div><dt>Flights</dt><dd>{String(person.flights).padStart(2, '0')}</dd></div><div><dt>EVAs</dt><dd>{String(person.spacewalks).padStart(2, '0')}</dd></div></dl>
         </button>
       </article>
     ))}
@@ -51,7 +52,7 @@ const agencies = [...new Set(crew.map((person) => person.agency))].sort();
   const formatDate = (value) => value ? new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(value)) : '—';
   cards.forEach((card, index) => card.querySelector('.crew-card-button')?.addEventListener('click', () => {
     const person = crew.find((member) => String(member.id) === card.querySelector('button')?.dataset.person); if (!person || !dossier) return;
-    dossier.querySelector('.dossier-image').src = person.image; dossier.querySelector('.dossier-image').alt = `Portrait of ${person.name}`; dossier.querySelector('.dossier-count').textContent = String(index + 1).padStart(2, '0'); dossier.querySelector('.dossier-agency').textContent = person.agency; dossier.querySelector('#dossier-name').textContent = person.name; dossier.querySelector('.dossier-meta').textContent = `${person.nationality} · ${person.agencyName}${person.age ? ` · Age ${person.age}` : ''}`; dossier.querySelector('.dossier-bio').textContent = person.bio; dossier.querySelector('[data-stat="days"]').textContent = person.daysInSpace.toLocaleString('en-GB'); dossier.querySelector('[data-stat="flights"]').textContent = String(person.flights).padStart(2, '0'); dossier.querySelector('[data-stat="spacewalks"]').textContent = String(person.spacewalks).padStart(2, '0'); dossier.querySelector('[data-stat="first-flight"]').textContent = formatDate(person.firstFlight);
+    dossier.querySelector('.dossier-image').src = person.image; dossier.querySelector('.dossier-image').alt = `Portrait of ${person.name}`; dossier.querySelector('.dossier-count').textContent = String(index + 1).padStart(2, '0'); dossier.querySelector('.dossier-agency').textContent = person.agency; dossier.querySelector('#dossier-name').textContent = person.name; dossier.querySelector('.dossier-meta').textContent = `${person.nationality} · ${person.agencyName}${person.age ? ` · Age ${person.age}` : ''}`; dossier.querySelector('.dossier-bio').textContent = person.bio; dossier.querySelector('[data-stat="days"]').textContent = Number.isFinite(person.daysInSpace) ? person.daysInSpace.toLocaleString('en-GB') : '—'; dossier.querySelector('[data-stat="flights"]').textContent = String(person.flights).padStart(2, '0'); dossier.querySelector('[data-stat="spacewalks"]').textContent = String(person.spacewalks).padStart(2, '0'); dossier.querySelector('[data-stat="first-flight"]').textContent = formatDate(person.firstFlight);
     const link = dossier.querySelector('.dossier-link'); link.href = person.wiki || '#'; link.hidden = !person.wiki; dossier.showModal(); document.body.classList.add('dialog-open'); window.dispatchEvent(new CustomEvent('crew-focus', { detail: { index } }));
   }));
   const closeDossier = () => { dossier?.close(); document.body.classList.remove('dialog-open'); };

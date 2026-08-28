@@ -1,5 +1,5 @@
 {
-  "retrievedAt": "2026-08-28T01:01:34.096Z",
+  "retrievedAt": "2026-08-28T06:12:12.732Z",
   "source": "Launch Library 2",
   "sourceUrl": "https://ll.thespacedevs.com/2.3.0/astronauts/?in_space=true&is_human=true&limit=100&mode=normal&ordering=name",
   "crew": [
@@ -17,7 +17,7 @@
       "age": 45,
       "flights": 2,
       "spacewalks": 0,
-      "daysInSpace": 380,
+      "daysInSpace": 381,
       "firstFlight": "2023-03-02T05:34:14Z",
       "lastFlight": "2026-02-13T10:15:56Z",
       "wiki": "https://en.wikipedia.org/wiki/Andrey_Fedyaev"
@@ -36,7 +36,7 @@
       "age": 50,
       "flights": 1,
       "spacewalks": 3,
-      "daysInSpace": 43,
+      "daysInSpace": 44,
       "firstFlight": "2026-07-14T14:47:43Z",
       "lastFlight": "2026-07-14T14:47:43Z",
       "wiki": "https://en.wikipedia.org/wiki/Anil_Menon_(astronaut)"
@@ -52,10 +52,10 @@
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/anna_yuryevna_k_image_20200828144537.jpg",
       "imageCredit": "RFSA",
       "bio": "Anna Yuryevna Kikina is a Russian engineer and test cosmonaut, selected in 2012. Kikina is assigned to Crew-5 mission which is to launch in 2022. The seat was arranged as a part of exchange agreement between Roscosmos and NASA, allowing Russian cosmonaut to fly on US vehicle while American astronaut gets a seat on Soyuz. Kikina will be the first Russian cosmonaut to fly on Crew Dragon.",
-      "age": 41,
+      "age": 42,
       "flights": 2,
       "spacewalks": 0,
-      "daysInSpace": 200,
+      "daysInSpace": 201,
       "firstFlight": "2022-10-05T16:00:57Z",
       "lastFlight": "2026-07-14T14:47:43Z",
       "wiki": "https://en.wikipedia.org/wiki/Anna_Kikina"
@@ -74,7 +74,7 @@
       "age": 44,
       "flights": 1,
       "spacewalks": 0,
-      "daysInSpace": 194,
+      "daysInSpace": 195,
       "firstFlight": "2026-02-13T10:15:56Z",
       "lastFlight": "2026-02-13T10:15:56Z",
       "wiki": "https://en.wikipedia.org/wiki/Jack_Hathaway"
@@ -93,7 +93,7 @@
       "age": 49,
       "flights": 2,
       "spacewalks": 5,
-      "daysInSpace": 399,
+      "daysInSpace": 400,
       "firstFlight": "2019-09-25T13:57:42Z",
       "lastFlight": "2026-02-13T10:15:56Z",
       "wiki": "https://en.wikipedia.org/wiki/Jessica_Meir"
@@ -108,11 +108,11 @@
       "nationality": "Chinese",
       "image": "https://thespacedevs-prod.nyc3.digitaloceanspaces.com/media/images/lai_ka-ying_off_image_20260524130422.png",
       "imageCredit": "CNSA",
-      "bio": "(Placeholder)",
+      "bio": "Currently serving beyond Earth.",
       "age": 43,
       "flights": 1,
       "spacewalks": 0,
-      "daysInSpace": 94,
+      "daysInSpace": 95,
       "firstFlight": "2026-05-24T15:08:36Z",
       "lastFlight": "2026-05-24T15:08:36Z",
       "wiki": null
@@ -131,7 +131,7 @@
       "age": 48,
       "flights": 2,
       "spacewalks": 4,
-      "daysInSpace": 398,
+      "daysInSpace": 399,
       "firstFlight": "2021-04-09T07:42:41Z",
       "lastFlight": "2026-07-14T14:47:43Z",
       "wiki": "https://en.wikipedia.org/wiki/Pyotr_Dubrov"
@@ -150,7 +150,7 @@
       "age": 44,
       "flights": 1,
       "spacewalks": 2,
-      "daysInSpace": 194,
+      "daysInSpace": 195,
       "firstFlight": "2026-02-13T10:15:56Z",
       "lastFlight": "2026-02-13T10:15:56Z",
       "wiki": "https://en.wikipedia.org/wiki/Sophie_Adenot"
@@ -169,7 +169,7 @@
       "age": 40,
       "flights": 1,
       "spacewalks": 0,
-      "daysInSpace": 94,
+      "daysInSpace": 95,
       "firstFlight": "2026-05-24T15:08:36Z",
       "lastFlight": "2026-05-24T15:08:36Z",
       "wiki": null
@@ -188,7 +188,7 @@
       "age": 39,
       "flights": 2,
       "spacewalks": 1,
-      "daysInSpace": 248,
+      "daysInSpace": 249,
       "firstFlight": "2023-05-30T01:31:10Z",
       "lastFlight": "2026-05-24T15:08:36Z",
       "wiki": "https://en.wikipedia.org/wiki/Zhu_Yangzhu"

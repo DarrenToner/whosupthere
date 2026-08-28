@@ -11,9 +11,14 @@ endpoint.searchParams.set('ordering', 'name');
 const outputPath = resolve('src/data/crew.json');
 
 function durationToDays(duration = '') {
+  if (typeof duration !== 'string') return 0;
   const match = duration.match(/P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?/);
   if (!match) return 0;
-  const [, days = 0, hours = 0, minutes = 0, seconds = 0] = match.map(Number);
+  const [, rawDays, rawHours, rawMinutes, rawSeconds] = match;
+  const days = Number(rawDays || 0);
+  const hours = Number(rawHours || 0);
+  const minutes = Number(rawMinutes || 0);
+  const seconds = Number(rawSeconds || 0);
   return Math.floor(days + hours / 24 + minutes / 1440 + seconds / 86400);
 }
 
@@ -26,7 +31,7 @@ function normalize(person) {
     nationality: nation.nationality_name || 'Earthling',
     image: person.image?.image_url || person.image?.thumbnail_url || '',
     imageCredit: person.image?.credit || person.agency?.abbrev || 'The Space Devs',
-    bio: person.bio || 'Currently serving beyond Earth.', age: person.age,
+    bio: person.bio && person.bio !== '(Placeholder)' ? person.bio : 'Currently serving beyond Earth.', age: person.age,
     flights: person.flights_count || 0, spacewalks: person.spacewalks_count || 0,
     daysInSpace: durationToDays(person.time_in_space), firstFlight: person.first_flight,
     lastFlight: person.last_flight, wiki: person.wiki,
