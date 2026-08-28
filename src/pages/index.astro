@@ -7,8 +7,37 @@ const { crew, retrievedAt, source } = crewData;
 const agencyCount = new Set(crew.map((person) => person.agency)).size;
 const countryCount = new Set(crew.map((person) => person.country)).size;
 const updated = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' }).format(new Date(retrievedAt));
+const crewSchema = {
+  '@type': 'ItemList',
+  '@id': 'https://astronauts.darrentoner.com/#current-crew',
+  name: 'Humans currently in space',
+  description: `The ${crew.length} humans currently living beyond Earth.`,
+  numberOfItems: crew.length,
+  itemListOrder: 'https://schema.org/ItemListOrderAscending',
+  itemListElement: crew.map((person, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': 'Person',
+      name: person.name,
+      nationality: person.nationality,
+      memberOf: {
+        '@type': 'Organization',
+        name: person.agencyName,
+        alternateName: person.agency,
+      },
+      ...(person.image ? { image: person.image } : {}),
+      ...(person.wiki ? { sameAs: person.wiki } : {}),
+    },
+  })),
+};
 ---
-<Layout title="Who's Up There? — Live Human Spaceflight Index" description="Meet the humans currently living beyond Earth in an interactive orbital experience.">
+<Layout
+  title="Who's Up There? — Live Human Spaceflight Index"
+  description="Meet the humans currently living beyond Earth in an interactive orbital experience."
+  modifiedTime={retrievedAt}
+  structuredData={crewSchema}
+>
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <SpaceScene />

@@ -1,25 +1,107 @@
 ---
 import '../styles/global.css';
-interface Props { title: string; description: string; }
-const { title, description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  modifiedTime?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  image = '/og-image.png',
+  imageAlt = "Who's Up There? — a live orbital index of the humans currently in space",
+  modifiedTime,
+  structuredData = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const siteUrl = new URL('/', Astro.site).toString();
+const socialImage = new URL(image, Astro.site).toString();
+const extraSchemas = Array.isArray(structuredData) ? structuredData : [structuredData];
+const schemaGraph = [
+  {
+    '@type': 'WebSite',
+    '@id': `${siteUrl}#website`,
+    url: siteUrl,
+    name: "Who's Up There?",
+    alternateName: 'Live Human Spaceflight Index',
+    description,
+    inLanguage: 'en-GB',
+    publisher: {
+      '@type': 'Person',
+      name: 'Darren Toner',
+      url: 'https://darrentoner.com/',
+    },
+  },
+  {
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: title,
+    description,
+    isPartOf: { '@id': `${siteUrl}#website` },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: socialImage,
+      width: 1200,
+      height: 630,
+      caption: imageAlt,
+    },
+    inLanguage: 'en-GB',
+    ...(modifiedTime ? { dateModified: modifiedTime } : {}),
+  },
+  ...extraSchemas,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': schemaGraph }).replace(/</g, '\\u003c');
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#050806" />
+    <meta name="color-scheme" content="dark" />
     <meta name="description" content={description} />
+    <meta name="author" content="Darren Toner" />
+    <meta name="application-name" content="Who's Up There?" />
+    <meta name="apple-mobile-web-app-title" content="Who's Up There?" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en-GB" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#cbff3f" />
     <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Who's Up There?" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL('/og-image.svg', Astro.site)} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:secure_url" content={socialImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    {modifiedTime && <meta property="og:updated_time" content={modifiedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <script type="application/ld+json" set:html={jsonLd} />
     <title>{title}</title>
   </head>
   <body id="top">
