@@ -1,0 +1,59 @@
+---
+interface CrewMember { id: number; name: string; agency: string; agencyName: string; country: string; nationality: string; image: string; imageCredit: string; bio: string; age: number | null; flights: number; spacewalks: number; daysInSpace: number; firstFlight: string | null; wiki: string | null; }
+interface Props { crew: CrewMember[]; }
+const { crew } = Astro.props;
+const agencies = [...new Set(crew.map((person) => person.agency))].sort();
+---
+<section class="crew-section" id="crew" aria-labelledby="crew-title">
+  <div class="section-rule" aria-hidden="true"><span>02</span></div>
+  <div class="section-heading reveal">
+    <div><p class="eyebrow">Current manifest</p><h2 id="crew-title">Meet the <em>off-world</em> crew.</h2></div>
+    <p class="section-intro">Every portrait is a person who is above the atmosphere right now. Choose a signal to inspect their flight record.</p>
+  </div>
+  <div class="crew-toolbar reveal" aria-label="Filter crew by agency">
+    <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">All signals <span>{String(crew.length).padStart(2, '0')}</span></button>
+    {agencies.map((agency) => <button class="filter-button" type="button" data-filter={agency} aria-pressed="false">{agency} <span>{String(crew.filter((person) => person.agency === agency).length).padStart(2, '0')}</span></button>)}
+  </div>
+  <div class="crew-grid">
+    {crew.map((person, index) => (
+      <article class="crew-card reveal" data-agency={person.agency} style={`--delay: ${(index % 4) * 70}ms`}>
+        <button class="crew-card-button" type="button" data-person={person.id} aria-label={`Open dossier for ${person.name}`}>
+          <div class="portrait-frame">
+            {person.image ? <img src={person.image} alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" /> : <span class="portrait-fallback">{person.name.split(' ').map((word) => word[0]).join('').slice(0, 2)}</span>}
+            <span class="portrait-scan"></span><span class="portrait-index">{String(index + 1).padStart(2, '0')}</span><span class="signal-pill"><i></i> Signal locked</span>
+          </div>
+          <div class="crew-card-copy"><div><p class="crew-agency">{person.agency} / {person.country}</p><h3>{person.name}</h3></div><span class="open-icon" aria-hidden="true">↗</span></div>
+          <dl class="crew-mini-stats"><div><dt>Days</dt><dd>{person.daysInSpace.toLocaleString('en-GB')}</dd></div><div><dt>Flights</dt><dd>{String(person.flights).padStart(2, '0')}</dd></div><div><dt>EVAs</dt><dd>{String(person.spacewalks).padStart(2, '0')}</dd></div></dl>
+        </button>
+      </article>
+    ))}
+  </div>
+  <p class="empty-state" hidden>No crew match this signal.</p>
+</section>
+<dialog class="dossier" id="crew-dossier" aria-labelledby="dossier-name">
+  <button class="dossier-close" type="button" aria-label="Close dossier">Close <span>×</span></button>
+  <div class="dossier-shell">
+    <div class="dossier-image-wrap"><img class="dossier-image" src="" alt="" /><div class="dossier-image-noise"></div><p class="dossier-count">00</p></div>
+    <div class="dossier-content">
+      <p class="eyebrow">Orbital dossier / <span class="dossier-agency"></span></p><h2 id="dossier-name"></h2><p class="dossier-meta"></p><p class="dossier-bio"></p>
+      <dl class="dossier-stats"><div><dt>Total days beyond Earth</dt><dd data-stat="days"></dd></div><div><dt>Completed flights</dt><dd data-stat="flights"></dd></div><div><dt>Spacewalks</dt><dd data-stat="spacewalks"></dd></div><div><dt>First launch</dt><dd data-stat="first-flight"></dd></div></dl>
+      <a class="dossier-link" href="#" target="_blank" rel="noreferrer">Read full mission profile <span>↗</span></a>
+    </div>
+  </div>
+</dialog>
+<script define:vars={{ crew }}>
+  const cards = [...document.querySelectorAll('.crew-card')], filters = [...document.querySelectorAll('.filter-button')], emptyState = document.querySelector('.empty-state'), dossier = document.querySelector('#crew-dossier'), closeButton = dossier?.querySelector('.dossier-close');
+  filters.forEach((button) => button.addEventListener('click', () => {
+    const filter = button.dataset.filter;
+    filters.forEach((item) => { const active = item === button; item.classList.toggle('is-active', active); item.setAttribute('aria-pressed', String(active)); });
+    let visible = 0; cards.forEach((card) => { const match = filter === 'all' || card.dataset.agency === filter; card.hidden = !match; if (match) visible += 1; }); if (emptyState) emptyState.hidden = visible > 0;
+  }));
+  const formatDate = (value) => value ? new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(value)) : '—';
+  cards.forEach((card, index) => card.querySelector('.crew-card-button')?.addEventListener('click', () => {
+    const person = crew.find((member) => String(member.id) === card.querySelector('button')?.dataset.person); if (!person || !dossier) return;
+    dossier.querySelector('.dossier-image').src = person.image; dossier.querySelector('.dossier-image').alt = `Portrait of ${person.name}`; dossier.querySelector('.dossier-count').textContent = String(index + 1).padStart(2, '0'); dossier.querySelector('.dossier-agency').textContent = person.agency; dossier.querySelector('#dossier-name').textContent = person.name; dossier.querySelector('.dossier-meta').textContent = `${person.nationality} · ${person.agencyName}${person.age ? ` · Age ${person.age}` : ''}`; dossier.querySelector('.dossier-bio').textContent = person.bio; dossier.querySelector('[data-stat="days"]').textContent = person.daysInSpace.toLocaleString('en-GB'); dossier.querySelector('[data-stat="flights"]').textContent = String(person.flights).padStart(2, '0'); dossier.querySelector('[data-stat="spacewalks"]').textContent = String(person.spacewalks).padStart(2, '0'); dossier.querySelector('[data-stat="first-flight"]').textContent = formatDate(person.firstFlight);
+    const link = dossier.querySelector('.dossier-link'); link.href = person.wiki || '#'; link.hidden = !person.wiki; dossier.showModal(); document.body.classList.add('dialog-open'); window.dispatchEvent(new CustomEvent('crew-focus', { detail: { index } }));
+  }));
+  const closeDossier = () => { dossier?.close(); document.body.classList.remove('dialog-open'); };
+  closeButton?.addEventListener('click', closeDossier); dossier?.addEventListener('click', (event) => { if (event.target === dossier) closeDossier(); }); dossier?.addEventListener('close', () => document.body.classList.remove('dialog-open'));
+</script>

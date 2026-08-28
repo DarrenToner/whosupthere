@@ -1,0 +1,10 @@
+{
+  "name": "Who's Up There?",
+  "short_name": "Up There",
+  "description": "Meet the humans currently living beyond Earth.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020403",
+  "theme_color": "#cbff3f",
+  "icons": []
+}

@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SpaceScene from '../components/SpaceScene.astro';
+import CrewExplorer from '../components/CrewExplorer.astro';
+import crewData from '../data/crew.json';
+const { crew, retrievedAt, source } = crewData;
+const agencyCount = new Set(crew.map((person) => person.agency)).size;
+const countryCount = new Set(crew.map((person) => person.country)).size;
+const updated = new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'UTC', timeZoneName: 'short' }).format(new Date(retrievedAt));
+---
+<Layout title="Who's Up There? — Live Human Spaceflight Index" description="Meet the humans currently living beyond Earth in an interactive orbital experience.">
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <SpaceScene />
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Who's Up There home"><span class="brand-orbit"><i></i></span><span>WUT<sup>02</sup></span></a>
+        <div class="header-status"><i></i> Live orbital index</div><a class="header-jump" href="#crew">Explore crew <span>↓</span></a>
+      </header>
+      <div class="hero-grid">
+        <div class="hero-copy"><p class="eyebrow reveal">Humans beyond Earth / Right now</p><h1 id="hero-title" class="reveal">Who’s up<br /><em>there?</em></h1><p class="hero-intro reveal">Earth has company. Meet every human currently living above our atmosphere.</p><a class="primary-action reveal" href="#crew"><span>Enter orbit</span><i>↘</i></a></div>
+        <div class="hero-count reveal" aria-label={`${crew.length} humans currently in space`}><span class="count-label">Current human count</span><strong>{String(crew.length).padStart(2, '0')}</strong><span class="count-state"><i></i> Off world</span></div>
+        <div class="orbit-instruction reveal"><span class="drag-icon">↔</span><span>Drag the planet<br />to shift perspective</span></div>
+      </div>
+      <div class="hero-telemetry" aria-label="Orbital data summary"><div><span>Agencies</span><strong>{String(agencyCount).padStart(2, '0')}</strong></div><div><span>Nations</span><strong>{String(countryCount).padStart(2, '0')}</strong></div><div><span>Region</span><strong>LEO</strong></div><div class="telemetry-source"><span>Signal</span><strong>{source}</strong></div></div>
+    </section>
+    <section class="transmission" aria-label="Live transmission summary">
+      <div class="transmission-ticker" aria-hidden="true"><span>Humanity is a multi-world species</span><i>✦</i><span>{crew.length} people above the atmosphere</span><i>✦</i><span>Signal received</span><i>✦</i></div>
+      <div class="transmission-grid"><div class="transmission-mark reveal"><span>01</span><i></i></div><p class="transmission-copy reveal">At this exact moment, <strong>{crew.length} humans</strong> are falling around Earth instead of standing on it.</p><div class="transmission-note reveal"><span>Orbital velocity</span><strong>~28,000 <small>km/h</small></strong><p>Fast enough to circle home roughly every 90 minutes.</p></div></div>
+    </section>
+    <CrewExplorer crew={crew} />
+    <section class="signal-section" aria-labelledby="signal-title">
+      <div class="signal-orbit" aria-hidden="true"><i></i><i></i><span></span></div>
+      <div class="signal-copy reveal"><p class="eyebrow">The overview effect</p><h2 id="signal-title">One planet.<br /><em>No borders.</em></h2><p>From orbit, every argument about where one place ends and another begins disappears. There is just the bright, fragile thing we all came from.</p></div>
+      <div class="signal-quote reveal"><span>Transmission / 03</span><blockquote>“You develop an instant global consciousness, a people orientation, an intense dissatisfaction with the state of the world.”</blockquote><cite>Edgar Mitchell · Apollo 14</cite></div>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-main"><div><p class="eyebrow">End of transmission</p><h2>Keep looking <em>up.</em></h2></div><a class="footer-top" href="#top" aria-label="Back to top">↑</a></div>
+    <div class="footer-meta"><p>Data from <a href="https://thespacedevs.com/llapi" target="_blank" rel="noreferrer">Launch Library 2</a> · Updated {updated}</p><p>Built by <a href="https://darrentoner.com" target="_blank" rel="noreferrer">Darren Toner</a></p><a class="maker-badge" href="https://lvthn.co/created-by/" target="_blank" rel="noreferrer" aria-label="Forged by Leviathan Studios"><span>Forged by</span><strong>LEVIATHAN</strong><i>↗</i></a></div>
+  </footer>
+  <script>
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+  </script>
+</Layout>

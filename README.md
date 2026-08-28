@@ -1,8 +1,28 @@
-# React + Vite
+# Who's Up There?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive orbital index of the humans currently living beyond Earth.
 
-Currently, two official plugins are available:
+## Built with
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Astro](https://astro.build/) for the static site
+- [Three.js](https://threejs.org/) for the interactive WebGL Earth
+- [Launch Library 2](https://thespacedevs.com/llapi) for the current human spaceflight data
+- GitHub Pages for hosting
+
+The data refresh runs at build time. A scheduled GitHub Actions deployment rebuilds the site every six hours, while the last valid snapshot keeps the site useful if the upstream API is temporarily unavailable.
+
+## Local development
+
+Node 22.12 or newer is required.
+
+```sh
+npm install
+npm run data:refresh
+npm run dev
+```
+
+Build the production version with:
+
+```sh
+npm run build
+```

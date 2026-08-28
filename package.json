@@ -1,43 +1,21 @@
 {
-  "name": "whosoutthere",
+  "name": "whos-up-there",
+  "version": "2.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "homepage": "https://astronauts.darrentoner.com/",
+  "description": "An interactive, real-time view of the humans currently living beyond Earth.",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "dev": "astro dev",
+    "data:refresh": "node scripts/fetch-crew.mjs",
+    "build": "astro build",
+    "build:fresh": "npm run data:refresh && astro build",
+    "preview": "astro preview"
   },
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.6.0",
-    "@fortawesome/free-regular-svg-icons": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
-    "@fortawesome/react-fontawesome": "^0.2.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-google-fonts": "^1.2.1"
+    "astro": "7.2.9",
+    "three": "0.185.1"
   },
-  "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.20",
-    "eslint": "^8.55.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "gh-pages": "^6.1.1",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.11",
-    "vite": "^5.4.6"
-  },
-  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "vite.config.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "engines": {
+    "node": ">=22.12.0"
+  }
 }
